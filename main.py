@@ -4,7 +4,7 @@ import yaml
 from dotenv import load_dotenv
 
 from cmc_gateway import CmcGateway
-from portfolio_formatter import TableFormatter, Formatter, JinjaFormatter
+from portfolio_formatter import Formatter, JinjaFormatter
 from sender import EmailSender, Sender
 
 
@@ -12,7 +12,6 @@ def load_config(config_file: str) -> dict:
     with open(config_file, 'r') as file:
         config = yaml.safe_load(file)
 
-    # Parse the API key, base URL, and preselected symbols from the config
     base_url = config['api']['base_url']
     preselected_symbols = config['api']['preselected_symbols']
 

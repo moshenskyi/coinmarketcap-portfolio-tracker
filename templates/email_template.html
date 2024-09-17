@@ -56,27 +56,27 @@
     </style>
 </head>
 <body>
-    <p>Hello boss. Here is your daily market review</p>
-    <table>
-        <thead>
-        <tr>
-            <th class="responsive-stack">Cryptocurrency</th>
-            <th class="responsive-stack">Symbol</th>
-            <th class="responsive-stack">Price</th>
-            <th class="responsive-stack">24h Change (%)</th>
-        </tr>
-        </thead>
-        <tbody>
+<p>Hello boss. Here is your daily market review</p>
+<table>
+    <thead>
+    <tr>
+        <th class="responsive-stack">Cryptocurrency</th>
+        <th class="responsive-stack">Symbol</th>
+        <th class="responsive-stack">Price</th>
+        <th class="responsive-stack">24h Change (%)</th>
+    </tr>
+    </thead>
+    <tbody>
 
-        {% for item in coins %}
-            <tr>
-                <td class="responsive-stack">{{ item['name'] }}</td>
-                <td class="responsive-stack">{{ item['symbol'] }}</td>
-                <td class="responsive-stack">{{ item['price'] }}</td>
-                <td class="responsive-stack">{{ item['change'] }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% for item in coins %}
+    <tr>
+        <td class="responsive-stack">{{ item['name'] }}</td>
+        <td class="responsive-stack">{{ item['symbol'] }}</td>
+        <td class="responsive-stack">{{ item['price'] }}</td>
+        <td class="responsive-stack">{{ item['change'] }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
 </body>
 </html>
