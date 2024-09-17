@@ -20,7 +20,7 @@ class TableFormatter(Formatter):
                 name: str = data.name
                 price: float = data.quote['USD'].price
                 percent_change_24h: float = data.quote['USD'].percent_change_24h
-                table_data.append([name, symbol, f"${price:.2f}", f"{percent_change_24h:.2f}%"])
+                table_data.append([name, symbol, f"${format_float(price)}", f"{percent_change_24h:.2f}%"])
 
             headers: list[str] = ["Name", "Symbol", "Price (USD)", "24h Change (%)"]
             return tabulate(table_data, headers, tablefmt="pretty")
@@ -41,7 +41,7 @@ class JinjaFormatter(Formatter):
                 coins.append({
                     "name": name,
                     "symbol": symbol,
-                    "price": f"${price:.5f}",
+                    "price": f"${format_float(price)}",
                     "change": f"{change:.2f}%"
                 })
 
@@ -50,3 +50,12 @@ class JinjaFormatter(Formatter):
 
         except ValueError as e:
             print(e)
+
+
+def format_float(value: float) -> str:
+    formatted_value = f"{value:.2f}"
+
+    if formatted_value.endswith("00"):
+        formatted_value = f"{value:.5f}"
+
+    return formatted_value
