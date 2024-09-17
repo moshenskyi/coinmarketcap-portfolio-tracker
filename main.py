@@ -4,7 +4,7 @@ import yaml
 from dotenv import load_dotenv
 
 from cmc_gateway import CmcGateway
-from portfolio_formatter import PortfolioFormatter
+from portfolio_formatter import PortfolioFormatter, Formatter
 
 
 def load_config(config_file: str) -> dict:
@@ -23,14 +23,14 @@ def load_config(config_file: str) -> dict:
 
 def main():
     config = load_config('config.yaml')
-    base_url = config['base_url']
-    preselected_symbols = config['preselected_symbols']
+    base_url: str = config['base_url']
+    preselected_symbols: list[str] = config['preselected_symbols']
 
     load_dotenv()
-    api_key = os.getenv('cmc_api_key')
+    api_key: str = os.getenv('cmc_api_key')
 
-    cmc_gateway = CmcGateway(api_key, base_url)
-    portfolio_display = PortfolioFormatter(preselected_symbols, cmc_gateway)
+    cmc_gateway: CmcGateway = CmcGateway(api_key, base_url)
+    portfolio_display: Formatter = PortfolioFormatter(preselected_symbols, cmc_gateway)
     portfolio_display.format()
 
 

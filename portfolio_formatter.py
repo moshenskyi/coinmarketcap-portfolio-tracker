@@ -1,11 +1,15 @@
-from typing import List
+from typing import List, Protocol
 
 from tabulate import tabulate
 
 from cmc_gateway import CmcGateway
 
+class Formatter(Protocol):
+    def format(self):
+        ...
 
-class PortfolioFormatter:
+
+class PortfolioFormatter(Formatter):
     def __init__(self, symbols: List[str], api: CmcGateway):
         self.symbols = symbols
         self.api = api
@@ -16,12 +20,12 @@ class PortfolioFormatter:
 
             table_data = []
             for symbol, data in quotes.data.items():
-                name = data.name
-                price = data.quote['USD'].price
-                percent_change_24h = data.quote['USD'].percent_change_24h
+                name: str = data.name
+                price: float = data.quote['USD'].price
+                percent_change_24h: float = data.quote['USD'].percent_change_24h
                 table_data.append([name, symbol, f"${price:.2f}", f"{percent_change_24h:.2f}%"])
 
-            headers = ["Name", "Symbol", "Price (USD)", "24h Change (%)"]
+            headers: list[str] = ["Name", "Symbol", "Price (USD)", "24h Change (%)"]
             print(tabulate(table_data, headers, tablefmt="pretty"))
 
         except ValueError as e:
