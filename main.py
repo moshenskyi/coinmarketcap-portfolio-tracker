@@ -4,7 +4,7 @@ import yaml
 from dotenv import load_dotenv
 
 from cmc_gateway import CmcGateway
-from portfolio_formatter import PortfolioFormatter, Formatter
+from portfolio_formatter import TableFormatter, Formatter, JinjaFormatter
 from sender import EmailSender, Sender
 
 
@@ -31,11 +31,16 @@ def main():
     api_key: str = os.getenv('cmc_api_key')
 
     cmc_gateway: CmcGateway = CmcGateway(api_key, base_url)
-    portfolio_display: Formatter = PortfolioFormatter(preselected_symbols, cmc_gateway)
+    try:
+        response = cmc_gateway.load(preselected_symbols)
+        data = response.data
 
-    formatted_data = portfolio_display.format()
-    sender: Sender = EmailSender()
-    sender.send(formatted_data)
+        formatter: Formatter = JinjaFormatter()
+
+        sender: Sender = EmailSender(formatter)
+        sender.send(data)
+    except ConnectionError as e:
+        print(e)
 
 
 if __name__ == "__main__":

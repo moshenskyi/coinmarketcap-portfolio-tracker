@@ -1,25 +1,22 @@
-from typing import List, Protocol
+from typing import Protocol, TypeVar, Dict, Any
 
 from tabulate import tabulate
 
-from cmc_gateway import CmcGateway
+from models import CurrencyModel
+
+T = TypeVar("T")
+
 
 class Formatter(Protocol):
-    def format(self) -> str:
+    def format(self, quotes: Dict[str, CurrencyModel]) -> T:
         ...
 
 
-class PortfolioFormatter(Formatter):
-    def __init__(self, symbols: List[str], api: CmcGateway):
-        self.symbols = symbols
-        self.api = api
-
-    def format(self) -> str:
+class TableFormatter(Formatter):
+    def format(self, quotes: Dict[str, CurrencyModel]) -> str:
         try:
-            quotes = self.api.load(self.symbols)
-
             table_data = []
-            for symbol, data in quotes.data.items():
+            for symbol, data in quotes.items():
                 name: str = data.name
                 price: float = data.quote['USD'].price
                 percent_change_24h: float = data.quote['USD'].percent_change_24h
@@ -30,5 +27,26 @@ class PortfolioFormatter(Formatter):
 
         except ValueError as e:
             print(e)
-        except ConnectionError as e:
+
+
+class JinjaFormatter(Formatter):
+    def format(self, quotes: Dict[str, CurrencyModel]) -> dict[Any, Any]:
+        try:
+            result = {}
+            coins = []
+            for symbol, data in quotes.items():
+                name: str = data.name
+                price: float = data.quote['USD'].price
+                change: float = data.quote['USD'].percent_change_24h
+                coins.append({
+                    "name": name,
+                    "symbol": symbol,
+                    "price": f"${price:.5f}",
+                    "change": f"{change:.2f}%"
+                })
+
+            result['coins'] = coins
+            return result
+
+        except ValueError as e:
             print(e)
