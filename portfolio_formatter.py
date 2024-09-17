@@ -5,7 +5,7 @@ from tabulate import tabulate
 from cmc_gateway import CmcGateway
 
 class Formatter(Protocol):
-    def format(self):
+    def format(self) -> str:
         ...
 
 
@@ -14,7 +14,7 @@ class PortfolioFormatter(Formatter):
         self.symbols = symbols
         self.api = api
 
-    def format(self):
+    def format(self) -> str:
         try:
             quotes = self.api.load(self.symbols)
 
@@ -26,7 +26,7 @@ class PortfolioFormatter(Formatter):
                 table_data.append([name, symbol, f"${price:.2f}", f"{percent_change_24h:.2f}%"])
 
             headers: list[str] = ["Name", "Symbol", "Price (USD)", "24h Change (%)"]
-            print(tabulate(table_data, headers, tablefmt="pretty"))
+            return tabulate(table_data, headers, tablefmt="pretty")
 
         except ValueError as e:
             print(e)

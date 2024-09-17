@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 
 from cmc_gateway import CmcGateway
 from portfolio_formatter import PortfolioFormatter, Formatter
+from sender import EmailSender, Sender
 
 
 def load_config(config_file: str) -> dict:
@@ -31,7 +32,10 @@ def main():
 
     cmc_gateway: CmcGateway = CmcGateway(api_key, base_url)
     portfolio_display: Formatter = PortfolioFormatter(preselected_symbols, cmc_gateway)
-    portfolio_display.format()
+
+    formatted_data = portfolio_display.format()
+    sender: Sender = EmailSender()
+    sender.send(formatted_data)
 
 
 if __name__ == "__main__":
