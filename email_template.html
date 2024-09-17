@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Email</title>
+    <style>
+        /* General styles for the email */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        table {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-collapse: collapse;
+            width: 100%;
+            table-layout: fixed;  /* Maintain table layout */
+        }
+
+        table, th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        td {
+            color: #333333;
+        }
+
+        /* Responsive styles for mobile */
+        @media screen and (max-width: 600px) {
+            table {
+                width: 100% !important;
+            }
+
+            th, td {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            /* Avoid stacking content */
+            .responsive-stack {
+                display: table-cell;  /* Ensure content remains in table cells */
+            }
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+        <tr>
+            <th class="responsive-stack">Cryptocurrency</th>
+            <th class="responsive-stack">Symbol</th>
+            <th class="responsive-stack">Price</th>
+            <th class="responsive-stack">24h Change (%)</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for item in coins %}
+            <tr>
+                <td class="responsive-stack">{{ item.name }}</td>
+                <td class="responsive-stack">{{ item.symbol }}</td>
+                <td class="responsive-stack">{{ item.price }}</td>
+                <td class="responsive-stack">{{ item.change }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
