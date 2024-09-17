@@ -1,0 +1,13 @@
+api:
+  base_url: https://pro-api.coinmarketcap.com/v1/
+  preselected_symbols:
+    - BTC
+    - ETH
+    - WBETH
+    - TON
+    - SOL
+    - JITOSOL
+    - BNB
+    - SUI
+    - DOGS
+    - TRX
