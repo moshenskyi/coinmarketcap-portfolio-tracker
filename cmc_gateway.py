@@ -6,7 +6,7 @@ from pydantic import ValidationError
 from models import QuoteListResponse
 
 
-class CmcRepository:
+class CmcGateway:
     def __init__(self, api_key: str, base_url: str):
         self.api_key = api_key
         self.base_url = base_url + 'cryptocurrency/quotes/latest'

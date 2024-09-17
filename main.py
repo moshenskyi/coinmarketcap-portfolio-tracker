@@ -3,7 +3,7 @@ import os
 import yaml
 from dotenv import load_dotenv
 
-from cmc_repository import CmcRepository
+from cmc_gateway import CmcGateway
 from portfolio_formatter import PortfolioFormatter
 
 
@@ -29,8 +29,8 @@ def main():
     load_dotenv()
     api_key = os.getenv('cmc_api_key')
 
-    repository = CmcRepository(api_key, base_url)
-    portfolio_display = PortfolioFormatter(preselected_symbols, repository)
+    cmc_gateway = CmcGateway(api_key, base_url)
+    portfolio_display = PortfolioFormatter(preselected_symbols, cmc_gateway)
     portfolio_display.format()
 
 

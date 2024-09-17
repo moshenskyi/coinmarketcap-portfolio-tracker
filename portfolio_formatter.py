@@ -2,11 +2,11 @@ from typing import List
 
 from tabulate import tabulate
 
-from cmc_repository import CmcRepository
+from cmc_gateway import CmcGateway
 
 
 class PortfolioFormatter:
-    def __init__(self, symbols: List[str], api: CmcRepository):
+    def __init__(self, symbols: List[str], api: CmcGateway):
         self.symbols = symbols
         self.api = api
 
